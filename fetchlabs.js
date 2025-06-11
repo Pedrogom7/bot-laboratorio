@@ -57,6 +57,10 @@ async function fetchLabs() {
     const tabelas = Array.from(document.querySelectorAll('table.tableReserva'));
     const resultados = [];
 
+    //regex contendo: 
+    // 1 - Nome do Curso "ESOFT"
+    // 2 - Semestre "3"
+    // 3 - Letra da Turma "C"
     const regex = /(?=.*ESOFT)(?=.*3)(?=.*C)/i;
 
     tabelas.forEach(tabela => {
