@@ -1,0 +1,20 @@
+{
+  "name": "bot-lab-unicesumar",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "node-cron": "^4.1.0",
+    "node-schedule": "^2.1.1",
+    "puppeteer": "^24.10.0",
+    "qrcode-terminal": "^0.12.0",
+    "venom-bot": "^5.3.0",
+    "whatsapp-web.js": "^1.30.0"
+  }
+}
