@@ -78,7 +78,6 @@ Para manter o bot online 24/7, você pode usar:
 
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
----
 
 ## 👤 Autor
 
