@@ -74,10 +74,12 @@ Para manter o bot online 24/7, você pode usar:
 - **Railway / Render / Fly.io**: com limitações no plano gratuito.
 - **Raspberry Pi**: se quiser rodar localmente 24h.
 
-## 📝 Licença
+## 📄 Licença
 
-Este projeto é de uso pessoal/educacional. Sinta-se livre para modificar e usar como quiser.
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ---
 
-Feito com ❤️ por Pedro Gomes
+## 👤 Autor
+
+Desenvolvido por Pedro Gomes, estudante de Engenharia de Software na Unicesumar, com foco em automações e integração de serviços usando JavaScript e Node.js. Para sugestões, melhorias ou colaborações, sinta-se à vontade para entrar em contato.
