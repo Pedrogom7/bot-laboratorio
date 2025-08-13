@@ -36,11 +36,11 @@ client.on('ready', async () => {
 
       console.log(`✅ Grupo "${GROUP_NAME}" encontrado.`);
 
-      // Agendamento diário às 10:00
-      schedule.scheduleJob('0 10 * * *', async () => {
+      // Agendamento diário às 17:00
+      schedule.scheduleJob('0 17 * * *', async () => {
         const msg = await fetchLabs();
         client.sendMessage(group.id._serialized, msg);
-        console.log(`📤 Mensagem enviada automaticamente para ${GROUP_NAME} às 10h.`);
+        console.log(`📤 Mensagem enviada automaticamente para ${GROUP_NAME} às 17h.`);
       });
     } catch (err) {
       console.error('Erro ao configurar o grupo ou agendamento:', err);

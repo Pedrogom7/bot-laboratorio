@@ -61,7 +61,7 @@ async function fetchLabs() {
     // 1 - Nome do Curso "ESOFT"
     // 2 - Semestre "3"
     // 3 - Letra da Turma "C"
-    const regex = /(?=.*ESOFT)(?=.*3)(?=.*C)/i;
+    const regex = /(?=.*ESOFT)(?=.*4)(?=.*C)/i;
 
     tabelas.forEach(tabela => {
       // 1. Identifica o lab
