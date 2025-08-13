@@ -6,9 +6,11 @@ const fetchLabs = require('./fetchlabs');
 
 // Nome do grupo autorizado
 const GROUP_NAME = 'Me Myself and I';
+const SESSION_DIR = process.env.WWEBJS_AUTH_DIR || './.wwebjs_auth';
+
 
 const client = new Client({
-  authStrategy: new LocalAuth(),
+  authStrategy: new LocalAuth({ dataPath: SESSION_DIR }),
   puppeteer: {
     headless: 'new',
     executablePath: puppeteer.executablePath(),
@@ -37,7 +39,7 @@ client.on('ready', async () => {
       console.log(`✅ Grupo "${GROUP_NAME}" encontrado.`);
 
       // Agendamento diário às 17:00
-      schedule.scheduleJob('0 20 * * *', async () => {
+      schedule.scheduleJob('* * * * *', async () => {
         const msg = await fetchLabs();
         client.sendMessage(group.id._serialized, msg);
         console.log(`📤 Mensagem enviada automaticamente para ${GROUP_NAME} às 17h.`);

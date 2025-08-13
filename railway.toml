@@ -1,0 +1,11 @@
+# railway.toml
+# schema: https://railway.com/railway.schema.json
+[build]
+builder = "DOCKERFILE"
+
+[deploy]
+startCommand = "node bot.js"
+restartPolicyType = "ALWAYS"
+restartPolicyMaxRetries = 10
+# sem healthcheck porque não é web server
+healthcheckPath = ""
