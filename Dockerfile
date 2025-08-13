@@ -1,36 +1,34 @@
 # Stage 1: Install dependencies
-FROM node:18-slim AS deps
+FROM node:18-alpine AS deps
 
-# Install minimal Chromium dependencies
-RUN apt-get update && apt-get install -y \
+# Install Chromium and minimal dependencies
+RUN apk add --no-cache \
   chromium \
-  fonts-liberation \
-  libasound2 \
-  libatk-bridge2.0-0 \
-  libatk1.0-0 \
-  libcups2 \
-  libgbm1 \
-  libnspr4 \
-  libnss3 \
-  libxcomposite1 \
-  libxdamage1 \
-  libxrandr2 \
-  xdg-utils \
-  --no-install-recommends \
-  && rm -rf /var/lib/apt/lists/*
+  nss \
+  freetype \
+  freetype-dev \
+  harfbuzz \
+  ca-certificates \
+  ttf-freefont \
+  nodejs \
+  npm
 
 WORKDIR /app
 COPY package*.json ./
-# Optimize npm install
+# Install production dependencies only
 RUN npm install --no-audit --no-fund --prefer-offline --omit=dev
 
 # Stage 2: Final image
-FROM node:18-slim
+FROM node:18-alpine
 
-# Copy Chromium and dependencies from deps stage
-COPY --from=deps /usr/bin/chromium /usr/bin/chromium
-COPY --from=deps /usr/lib /usr/lib
-COPY --from=deps /usr/share /usr/share
+# Install runtime dependencies for Chromium
+RUN apk add --no-cache \
+  chromium \
+  nss \
+  freetype \
+  harfbuzz \
+  ca-certificates \
+  ttf-freefont
 
 # Set working directory
 WORKDIR /app
@@ -42,7 +40,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Set Puppeteer to use system Chromium
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 # Start the bot
