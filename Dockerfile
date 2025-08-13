@@ -1,7 +1,7 @@
-# Use a slim Node 18 base image for smaller size and faster pulls
-FROM node:18-slim
+# Stage 1: Install dependencies
+FROM node:18-slim AS deps
 
-# Install Chromium and minimal dependencies
+# Install minimal Chromium dependencies
 RUN apt-get update && apt-get install -y \
   chromium \
   fonts-liberation \
@@ -19,18 +19,31 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /app
+COPY package*.json ./
+# Optimize npm install
+RUN npm install --no-audit --no-fund --prefer-offline --omit=dev
+
+# Stage 2: Final image
+FROM node:18-slim
+
+# Copy Chromium and dependencies from deps stage
+COPY --from=deps /usr/bin/chromium /usr/bin/chromium
+COPY --from=deps /usr/lib /usr/lib
+COPY --from=deps /usr/share /usr/share
+
 # Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package*.json ./
-RUN npm install --no-audit --no-fund --prefer-offline
+# Copy node_modules from deps stage
+COPY --from=deps /app/node_modules ./node_modules
 
 # Copy application code
 COPY . .
 
 # Set Puppeteer to use system Chromium
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 # Start the bot
 CMD ["node", "bot.js"]
