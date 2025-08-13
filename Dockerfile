@@ -1,36 +1,36 @@
-FROM node:18
+# Use a slim Node 18 base image for smaller size and faster pulls
+FROM node:18-slim
 
-# Instala dependências para o Chromium
+# Install Chromium and minimal dependencies
 RUN apt-get update && apt-get install -y \
-  wget \
-  ca-certificates \
+  chromium \
   fonts-liberation \
-  libappindicator3-1 \
   libasound2 \
   libatk-bridge2.0-0 \
   libatk1.0-0 \
-  libatspi2.0-0 \
   libcups2 \
-  libdbus-1-3 \
-  libgdk-pixbuf2.0-0 \
+  libgbm1 \
   libnspr4 \
   libnss3 \
-  libx11-xcb1 \
   libxcomposite1 \
   libxdamage1 \
-  libxfixes3 \
   libxrandr2 \
-  libgbm1 \
   xdg-utils \
   --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
-# Instala as dependências do projeto
+# Set working directory
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
 
-# Copia o resto dos arquivos
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm install --no-audit --no-fund --prefer-offline
+
+# Copy application code
 COPY . .
 
-CMD ["npm", "start"]
+# Set Puppeteer to use system Chromium
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+
+# Start the bot
+CMD ["node", "bot.js"]
